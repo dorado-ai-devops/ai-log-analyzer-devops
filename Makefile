@@ -1,5 +1,5 @@
 IMAGE_NAME=log-analyzer
-VERSION=v0.1.4
+VERSION=v0.1.5
 CLUSTER_NAME=devops-ai
 
 .PHONY: all build push load sync
