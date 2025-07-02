@@ -1,5 +1,5 @@
 IMAGE_NAME=log-analyzer
-VERSION=v0.1.5
+VERSION=v0.1.6
 CLUSTER_NAME=devops-ai
 REGISTRY=localhost:5000
 HELM_VALUES=../devops-ai-lab/manifests/helm-log-analyzer/values.yaml
@@ -29,8 +29,3 @@ sync:
 release: build load update-values sync
 	@echo "✅ Release completo: $(IMAGE_NAME):$(VERSION) desplegado y sincronizado con ArgoCD."
 
-commit:
-	cd ../devops-ai-lab && \
-	git add manifests/helm-log-analyzer/values.yaml && \
-	git commit -m "chore: update image version to $(VERSION)" && \
-	git push
