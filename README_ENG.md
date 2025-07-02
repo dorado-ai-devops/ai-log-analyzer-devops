@@ -12,6 +12,7 @@
 - 🐳 Docker-ready and Kubernetes-deployable
 - ✍️ Modular and editable prompt templates
 - 📁 Works fully online or offline
+- 🛠️ Integrated Makefile for build and deployment automation
 
 ---
 
@@ -26,6 +27,7 @@ ai-log-analyzer-devops/
 ├── prompts/               # Prompt templates for LLMs
 ├── requirements.txt       # Python dependencies
 ├── Dockerfile             # Containerization setup
+├── Makefile               # Build and deploy automation
 └── README.md              # Project documentation
 ```
 
@@ -77,6 +79,30 @@ Includes: `openai`, `flask`, `requests`, etc.
 ### `Dockerfile`
 
 Containerizes the app (Flask-based). Ideal for CI/CD deployment, local development, and Kubernetes environments.
+
+### `Makefile`
+
+Automates image building, version tagging, loading into KIND, Helm value injection, and ArgoCD sync:
+
+```bash
+make release VERSION=v0.1.5
+```
+
+This will:
+1. Build the Docker image
+2. Load it into the KIND cluster
+3. Update the `values.yaml` with the new tag
+4. Sync the ArgoCD app
+5. Confirm release success
+
+You can also run targets independently:
+
+```bash
+make build
+make load
+make update-values
+make sync
+```
 
 ---
 
