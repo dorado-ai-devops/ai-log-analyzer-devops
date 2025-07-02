@@ -1,107 +1,27 @@
-# 🧠 ai-log-analyzer-devops
+# 🌐 ai-log-analyzer-devops
 
-> An AI-powered log analyzer that processes DevOps logs and provides intelligent diagnostics and recommendations using LLMs like OpenAI (GPT-4o) or local models via Ollama (LLaMA3, Phi-3, etc.).
-
-[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-5eaaa8?logo=openai&logoColor=white)](https://platform.openai.com/)
-[![Ollama](https://img.shields.io/badge/Ollama-Local--LLM-darkgreen)](https://ollama.com/)
+Este repositorio está disponible en múltiples idiomas.  
+This repository is available in multiple languages.
 
 ---
 
-## 🚀 Features
+🧠 **AI-powered log analyzer for DevOps pipelines.**  
+Analiza logs de Jenkins, Kubernetes, Helm y otros entornos CI/CD, utilizando modelos de lenguaje como GPT-4o u Ollama (LLaMA3, Phi-3). Ofrece diagnósticos automáticos y recomendaciones basadas en IA.  
+Designed to work both **online** (OpenAI API) and **offline** (local LLMs), it’s modular, lightweight, and ready for real DevOps use cases.
 
-- 🔍 Analyze logs from CI/CD pipelines (e.g. Jenkins, Helm, K8s)
-- 🤖 Powered by OpenAI GPT-4o or Ollama (local LLMs)
-- 📦 Simple CLI tool and Docker-ready
-- ✍️ Modular prompt templates
-- 📁 Works fully offline or online
-
----
-
-## 📦 Project Structure
-
-```
-ai-log-analyzer-devops/
-├── cli/                    # Command-line interface
-├── lib/                    # Core logic and clients (OpenAI, Ollama)
-├── logs/                   # Example logs
-├── prompts/                # Prompt templates
-├── requirements.txt        # Python dependencies
-├── Dockerfile              # Containerization
-└── README.md
-```
+🚀 CLI sencilla • Prompts modulares • Funciona offline y online  
+🚀 Fast CLI tool • Modular prompts • Offline & online compatible
 
 ---
 
-## 🛠️ Getting Started
+## 📘 Lenguajes / Languages
 
-### 🔁 Clone & Setup
+- 🇪🇸 [Documentación en Español](./README_ES.md)  
+  _Guía detallada sobre la estructura del proyecto, instalación, ejecución y componentes principales._
 
-```bash
-git clone git@github.com:dorado-ai-devops/ai-log-analyzer-devops.git
-cd ai-log-analyzer-devops
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+- 🇬🇧 [Documentation in English](./README_ENG.md)  
+  _Detailed guide including project structure, setup, execution and component breakdown._
 
 ---
 
-### ⚙️ Run (OpenAI mode)
-
-```bash
-OPENAI_API_KEY=sk-xxx \
-python3 cli/generate.py --mode openai --logfile logs/example_jenkins.log
-```
-
-### ⚙️ Run (Ollama local mode)
-
-```bash
-ollama run llama3
-python3 cli/generate.py --mode ollama --logfile logs/example_jenkins.log
-```
-
----
-
-## 💡 Example Output
-
-```
-
-Detected failure to connect to database service.
-Cause: service `db.example.local` unreachable during startup.
-Recommendation: Check DB_HOST env variable, network policies and service status. Consider retry with backoff strategy.
-```
-
----
-
-## 🔮 Next steps
-
-- [ ] 🧩 Add observability/logging via Prometheus or Loki
-- [ ] 🧠 Add planning agents via LangChain / CrewAI
-- [ ] 🗂️ Export reports as Markdown or JSON
-- [ ] ⚙️ Docker + Helm deployable
-
----
-
-## 📸 Screenshots *(soon)*
-
-> We'll add terminal examples, logs, diagrams and flowcharts.
-
----
-
-## 👨‍💻 Author
-
-- **Dani** – [@dorado-ai-devops](https://github.com/dorado-ai-devops)
-
----
-
-## 🧠 Inspired by
-
-- [LangChain](https://github.com/langchain-ai/langchain)
-- [Ollama](https://ollama.com)
-- [OpenAI API](https://platform.openai.com/docs)
-
----
-
-## 🛡 License
-GNU
+📁 Repositorio mantenido por [@dorado-ai-devops](https://github.com/dorado-ai-devops)
