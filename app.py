@@ -10,6 +10,7 @@ app = Flask(__name__)
 def analyze():
     data = request.get_json()
     log_content = data.get("log", "")
+    mode = data.get("mode", "openai")  # por defecto openai si no se pasa
 
     if not log_content:
         return jsonify({"error": "Missing 'log' in request"}), 400
@@ -22,7 +23,7 @@ def analyze():
     try:
         # Ejecutar el CLI con el archivo temporal como argumento
         result = subprocess.run(
-            ["python3", "cli/generate.py", "--mode", "openai", "--logfile", temp_log_path],
+            ["python3", "cli/generate.py", "--mode", mode, "--logfile", temp_log_path],
             capture_output=True,
             text=True,
             env={**os.environ, "PYTHONPATH": "."}
