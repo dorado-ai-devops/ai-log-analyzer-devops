@@ -8,7 +8,8 @@
 
 - 🔍 Analyze CI/CD pipeline logs (Jenkins, Helm, Kubernetes)
 - 🤖 Powered by OpenAI GPT-4o or local models via Ollama
-- 📦 Simple CLI tool, Docker-ready
+- 📦 Simple CLI tool and REST microservice (Flask)
+- 🐳 Docker-ready and Kubernetes-deployable
 - ✍️ Modular and editable prompt templates
 - 📁 Works fully online or offline
 
@@ -18,59 +19,64 @@
 
 ```
 ai-log-analyzer-devops/
-├── cli/                    # Command-line interface scripts
-├── lib/                    # Core logic and AI clients
-├── logs/                   # Example logs for testing
-├── prompts/                # Prompt templates for LLMs
-├── requirements.txt        # Python dependencies
-├── Dockerfile              # Containerization setup
-└── README.md               # Project documentation
+├── app.py                 # Flask server for K8s integration (REST endpoint)
+├── cli/                   # Command-line interface scripts
+├── lib/                   # Core logic and AI clients
+├── logs/                  # Example logs for testing
+├── prompts/               # Prompt templates for LLMs
+├── requirements.txt       # Python dependencies
+├── Dockerfile             # Containerization setup
+└── README.md              # Project documentation
 ```
 
 ---
 
 ## 🧩 Detailed Description of Components
 
+### `app.py`
+
+Flask microservice exposing `/analyze` endpoint:
+- Accepts a log in JSON (`{ "log": "..." }`)
+- Internally calls `cli/generate.py` to analyze
+- Returns structured AI-based response
+- Deployable as a microservice on Kubernetes
+
 ### `cli/`
 
-Contains terminal-executable scripts. Currently, `generate.py` is the main script that:
-
+Terminal script: `generate.py`:
 - Reads a log file
-- Calls an LLM based on the selected mode (`openai` or `ollama`)
-- Uses the appropriate prompt template from `prompts/`
-- Displays the result in the terminal
+- Selects mode: `openai` or `ollama`
+- Loads relevant prompt
+- Returns model response in terminal or JSON
 
 ### `lib/`
 
-Houses reusable core logic:
-
-- OpenAI and Ollama clients
-- Functions to load logs, build prompts, and process model responses
-- This layer separates the CLI interface from internal logic, enhancing testability and modularity
+Internal logic:
+- OpenAI/Ollama clients
+- Prompt and log processing
+- Clean separation of logic and interface
 
 ### `logs/`
 
-Includes `.log` files for testing and development, such as `example_jenkins.log`.
+Sample `.log` files for dev/testing (`example_jenkins.log`)
 
 ### `prompts/`
 
-Defines the instruction templates sent to the LLM. Modularizing prompts allows:
-
-- Adjusting the output style
-- Tweaking model behavior
-- Decoupling business logic from AI content
+Instruction templates to control model behavior/output
 
 ### `requirements.txt`
 
-List of necessary dependencies. Includes libraries like `openai`, `requests`, etc. Install with:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
+Includes: `openai`, `flask`, `requests`, etc.
+
 ### `Dockerfile`
 
-Allows full containerization of the application. Ideal for CI/CD deployment or running in offline environments with Ollama.
+Containerizes the app (Flask-based). Ideal for CI/CD deployment, local development, and Kubernetes environments.
 
 ---
 
@@ -88,18 +94,23 @@ pip install -r requirements.txt
 
 ---
 
-### ⚙️ Run (OpenAI mode)
+### ⚙️ Run as CLI (OpenAI mode)
 
 ```bash
-OPENAI_API_KEY=sk-xxx \
-python3 cli/generate.py --mode openai --logfile logs/example_jenkins.log
+OPENAI_API_KEY=sk-xxx python3 cli/generate.py --mode openai --logfile logs/example_jenkins.log
 ```
 
-### ⚙️ Run (Local mode with Ollama)
+### ⚙️ Run as REST microservice (Flask)
 
 ```bash
-ollama run llama3
-python3 cli/generate.py --mode ollama --logfile logs/example_jenkins.log
+python3 app.py
+```
+
+### 🔁 Run in Docker (Flask server)
+
+```bash
+docker build -t log-analyzer:dev .
+docker run -p 5000:5000 log-analyzer:dev
 ```
 
 ---
@@ -116,7 +127,9 @@ Recommendation: Check DB_HOST environment variable, network policies, and servic
 
 ## 🔮 Next Steps
 
--
+- Add Jenkins integration example
+- Add Kubernetes deployment manifests
+- Enable streaming/tokenized responses from LLMs
 
 ---
 
@@ -143,4 +156,3 @@ Will include visual examples of logs, terminal output, and diagrams.
 ## 🛡 License
 
 GNU General Public License v3.0
-
