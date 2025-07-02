@@ -1,0 +1,4 @@
+[ERROR] Failed to connect to database at startup
+[WARN] Retry attempt 1...
+[ERROR] Service unavailable: db.example.local
+[INFO] Rollback triggered
