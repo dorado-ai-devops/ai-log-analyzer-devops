@@ -1,0 +1,3 @@
+Analyze the following log content from a DevOps perspective. Summarize detected errors, identify possible root causes, and provide concise, actionable recommendations to resolve or mitigate the issues.
+
+${LOG_CONTENT}

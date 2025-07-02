@@ -5,7 +5,6 @@
 [![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-5eaaa8?logo=openai&logoColor=white)](https://platform.openai.com/)
 [![Ollama](https://img.shields.io/badge/Ollama-Local--LLM-darkgreen)](https://ollama.com/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
 
@@ -67,7 +66,6 @@ python3 cli/generate.py --mode ollama --logfile logs/example_jenkins.log
 ## 💡 Example Output
 
 ```
---- Análisis generado ---
 
 Detected failure to connect to database service.
 Cause: service `db.example.local` unreachable during startup.
