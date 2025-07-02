@@ -42,6 +42,6 @@ build/
 
 # Exported markdowns or temp files
 *.Zone.Identifier
-
+*Zone.Identifier
 # Ollama cache (if used locally)
 ollama_models/
