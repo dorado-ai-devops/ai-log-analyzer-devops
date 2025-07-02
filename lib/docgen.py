@@ -12,7 +12,7 @@ def generate_documentation(mode, logfile):
     if mode == "openai":
         client = OpenAIClient(api_key=os.getenv("OPENAI_API_KEY"))
     else:
-        client = OllamaClient(model=os.getenv("OLLAMA_MODEL", "llama3"))
+        client = OllamaClient(model=os.getenv("OLLAMA_MODEL", "mistral:latest"))
 
     result = client.generate_completion(prompt)
     print("\n--- Análisis generado ---\n")
