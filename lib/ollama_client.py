@@ -1,6 +1,6 @@
 # lib/ollama_client.py
 import requests
-
+import os
 class OllamaClient:
     def __init__(self, model="llama3"):
         self.model = model
