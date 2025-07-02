@@ -1,5 +1,5 @@
 IMAGE_NAME=log-analyzer
-VERSION=v0.1.6
+VERSION=v0.1.8
 CLUSTER_NAME=devops-ai
 REGISTRY=localhost:5000
 HELM_VALUES=../devops-ai-lab/manifests/helm-log-analyzer/values.yaml
