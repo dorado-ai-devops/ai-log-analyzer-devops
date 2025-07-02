@@ -2,7 +2,10 @@
 
 > An AI-powered log analyzer that processes DevOps logs and provides intelligent diagnostics and recommendations using LLMs like OpenAI (GPT-4o) or local models via Ollama (LLaMA3, Phi-3, etc.).
 
-![DevOps + AI](https://user-images.githubusercontent.com/6871519/267622150-2a6a4b4f-e003-4e59-93a2-e3b0414e1bda.png)
+[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-5eaaa8?logo=openai&logoColor=white)](https://platform.openai.com/)
+[![Ollama](https://img.shields.io/badge/Ollama-Local--LLM-darkgreen)](https://ollama.com/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ---
 
@@ -103,5 +106,4 @@ Recommendation: Check DB_HOST env variable, network policies and service status.
 ---
 
 ## 🛡 License
-
-MIT — use freely, modify consciously.
+GNU
