@@ -1,18 +1,19 @@
 # 🧠 ai-log-analyzer-devops
 
-> An AI-powered log analyzer that processes logs from DevOps environments (like Jenkins or Kubernetes) and provides intelligent diagnostics and recommendations using LLMs such as GPT-4o (OpenAI) or local models via Ollama (LLaMA3, Phi-3, etc).
+> An AI-powered log analyzer that processes logs from DevOps environments (such as Jenkins or Kubernetes) and provides intelligent diagnostics and recommendations using LLMs like GPT-4o (OpenAI) or local models via Ollama (LLaMA3, Phi-3, etc).
 
 ---
 
 ## 🚀 Features
 
-- 🔍 Analyze CI/CD pipeline logs (Jenkins, Helm, Kubernetes)
-- 🤖 Powered by OpenAI GPT-4o or local models via Ollama
-- 📦 Simple CLI tool and REST microservice (Flask)
-- 🐳 Docker-ready and Kubernetes-deployable
-- ✍️ Modular and editable prompt templates
-- 📁 Works fully online or offline
+- 🔍 Analyzes logs from CI/CD pipelines (Jenkins, Helm, Kubernetes)
+- 🤖 Compatible with OpenAI GPT-4o or local models via Ollama
+- 📦 Simple CLI and REST microservice with Flask
+- 🐳 Ready for Docker and Kubernetes deployment
+- ✍️ Modular and editable prompts (`.prompt`)
+- 📁 Fully functional in both online and offline modes
 - 🛠️ Integrated Makefile for build and deployment automation
+- 🔁 Jenkins integration for on-demand log analysis from pipelines
 
 ---
 
@@ -20,95 +21,110 @@
 
 ```
 ai-log-analyzer-devops/
-├── app.py                 # Flask server for K8s integration (REST endpoint)
-├── cli/                   # Command-line interface scripts
-├── lib/                   # Core logic and AI clients
-├── logs/                  # Example logs for testing
-├── prompts/               # Prompt templates for LLMs
+├── app.py                 # Flask microservice (API /analyze)
+├── cli/                   # CLI scripts like generate.py
+├── lib/                   # OpenAI/Ollama clients and core logic
+├── logs/                  # Sample logs
+├── prompts/               # Dynamic .prompt templates
 ├── requirements.txt       # Python dependencies
-├── Dockerfile             # Containerization setup
-├── Makefile               # Build and deploy automation
+├── Dockerfile             # Flask container setup
+├── Makefile               # Build and deployment automation
 └── README.md              # Project documentation
 ```
 
 ---
 
-## 🧩 Detailed Description of Components
+## 🧩 Component Overview
 
 ### `app.py`
 
-Flask microservice exposing `/analyze` endpoint:
-- Accepts a log in JSON (`{ "log": "..." }`)
-- Internally calls `cli/generate.py` to analyze
-- Returns structured AI-based response
-- Deployable as a microservice on Kubernetes
+Flask microservice deployable on K8s:
+- Endpoint `/analyze`
+- Accepts JSON: `{ "log": "...", "mode": "openai|ollama" }`
+- Creates a temporary file with the log
+- Calls `generate.py` and returns AI output as JSON
 
-### `cli/`
+### `cli/generate.py`
 
-Terminal script: `generate.py`:
-- Reads a log file
-- Selects mode: `openai` or `ollama`
-- Loads relevant prompt
-- Returns model response in terminal or JSON
+CLI entry point for log analysis:
+- Arguments: `--mode`, `--logfile`
+- Loads log using `load_log()`
+- Injects content into prompt (`${LOG_CONTENT}`)
+- Calls `generate_documentation()` to get model output
 
 ### `lib/`
 
-Internal logic:
-- OpenAI/Ollama clients
-- Prompt and log processing
-- Clean separation of logic and interface
-
-### `logs/`
-
-Sample `.log` files for dev/testing (`example_jenkins.log`)
+- `input_loader.py`: reads plain text log files
+- `utils.py`: loads `.prompt` templates
+- `ollama_client.py`: HTTP client for Ollama
+- `openai_client.py`: GPT-4o client using ChatCompletion API
+- `docgen.py`: connects all pieces and returns formatted result
 
 ### `prompts/`
 
-Instruction templates to control model behavior/output
-
-### `requirements.txt`
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Includes: `openai`, `flask`, `requests`, etc.
+Holds dynamic templates like `log_analysis.prompt`.  
+You can add new ones to customize analysis behavior.
 
 ### `Dockerfile`
 
-Containerizes the app (Flask-based). Ideal for CI/CD deployment, local development, and Kubernetes environments.
+Flask-based container exposing port 5000:
+
+```bash
+docker build -t log-analyzer:dev .
+docker run -p 5000:5000 log-analyzer:dev
+```
 
 ### `Makefile`
 
-Automates image building, version tagging, loading into KIND, Helm value injection, and ArgoCD sync:
-
+Automates common tasks:
 ```bash
-make release VERSION=v0.1.5
+make build             # Build Docker image
+make load              # Load into KIND
+make update-values     # Update Helm values.yaml
+make sync              # Sync with ArgoCD
+make release VERSION=v0.1.5  # Full release workflow
 ```
 
-This will:
-1. Build the Docker image
-2. Load it into the KIND cluster
-3. Update the `values.yaml` with the new tag
-4. Sync the ArgoCD app
-5. Confirm release success
+---
 
-You can also run targets independently:
+## 🔁 Jenkins Integration
 
-```bash
-make build
-make load
-make update-values
-make sync
+Example of invoking the microservice from a Jenkins pipeline:
+
+```
+pipeline {
+  parameters {
+    choice(name: 'MODELO_IA', choices: ['openai', 'ollama'], description: 'AI engine')
+  }
+  environment {
+    OPENAI_API_KEY = credentials('OPENAI_API_KEY')
+  }
+  stages {
+    stage('Analyze Logs') {
+      steps {
+        script {
+          def logText = "Build failed: unable to connect to database"
+          def jsonPayload = "{ \"log\": \"" + logText + "\", \"mode\": \"" + params.MODELO_IA + "\" }"
+          def curlCommand = '''
+            curl -X POST http://log-analyzer-service.devops-ai.svc.cluster.local:80/analyze \\
+              -H "Content-Type: application/json" \\
+              -d '${jsonPayload}'
+          '''
+          if (params.MODELO_IA == 'openai') {
+            curlCommand = curlCommand.replace("-d", "-H \"Authorization: Bearer $OPENAI_API_KEY\" -d")
+          }
+          def response = sh(script: curlCommand, returnStdout: true).trim()
+          echo "Response: ${response}"
+        }
+      }
+    }
+  }
+}
 ```
 
 ---
 
 ## 🛠️ Getting Started
-
-### 🔁 Clone and Setup
 
 ```bash
 git clone https://github.com/dorado-ai-devops/ai-log-analyzer-devops.git
@@ -120,48 +136,36 @@ pip install -r requirements.txt
 
 ---
 
-### ⚙️ Run as CLI (OpenAI mode)
+### ⚙️ Run CLI
 
 ```bash
-OPENAI_API_KEY=sk-xxx python3 cli/generate.py --mode openai --logfile logs/example_jenkins.log
+python3 cli/generate.py --mode ollama --logfile logs/example.log
 ```
 
-### ⚙️ Run as REST microservice (Flask)
+### ⚙️ Run Microservice
 
 ```bash
 python3 app.py
-```
-
-### 🔁 Run in Docker (Flask server)
-
-```bash
-docker build -t log-analyzer:dev .
-docker run -p 5000:5000 log-analyzer:dev
 ```
 
 ---
 
 ## 💡 Example Output
 
-```text
-Detected failure to connect to database service.
-Cause: service `db.example.local` unreachable during startup.
-Recommendation: Check DB_HOST environment variable, network policies, and service status. Consider retrying with backoff.
+```
+Detected failure to connect to the database service.
+Cause: the `db.example.local` service is unavailable at startup.
+Recommendation: check DB_HOST variable, network policies, and service state.
 ```
 
 ---
 
-## 🔮 Next Steps
+## 🔮 Roadmap
 
-- Add Jenkins integration example
-- Add Kubernetes deployment manifests
-- Enable streaming/tokenized responses from LLMs
-
----
-
-## 📸 Screenshots *(coming soon)*
-
-Will include visual examples of logs, terminal output, and diagrams.
+- Enable streaming output (`stream=True` in Ollama)
+- Structured JSON logging
+- API key authentication (for public exposure)
+- Full Helm + ArgoCD deployment examples
 
 ---
 
