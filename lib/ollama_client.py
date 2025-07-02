@@ -12,7 +12,8 @@ class OllamaClient:
             "model": self.model,
             "messages": [
                 {"role": "user", "content": prompt}
-            ]
+            ],
+            "stream": False
         })
         response.raise_for_status()
         return response.json()["message"]["content"]
