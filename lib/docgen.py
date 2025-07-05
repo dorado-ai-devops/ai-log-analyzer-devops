@@ -7,7 +7,7 @@ import os
 def generate_documentation(mode, logfile):
     log_content = load_log(logfile)
     prompt_template = load_prompt("log_analysis")
-    prompt = prompt_template.replace("${LOG_CONTENT}", log_content)
+    prompt = prompt_template.replace("{{LOG_CONTENT}}", log_content)
 
     if mode == "openai":
         client = OpenAIClient(api_key=os.getenv("OPENAI_API_KEY"))
