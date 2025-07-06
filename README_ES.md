@@ -160,14 +160,6 @@ Recomendación: revisar variable DB_HOST, políticas de red y estado del servici
 
 ---
 
-## 🔮 Próximos pasos
-
-- Stream por tokens (`stream=True` en Ollama)
-- Logging estructurado JSON
-- Autenticación por clave si se expone públicamente
-- Ejemplos Helm + ArgoCD
-
----
 
 ## 👨‍💻 Autor
 

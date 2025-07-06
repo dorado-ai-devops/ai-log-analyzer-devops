@@ -158,17 +158,6 @@ Cause: the `db.example.local` service is unavailable at startup.
 Recommendation: check DB_HOST variable, network policies, and service state.
 ```
 
----
-
-## 🔮 Roadmap
-
-- Enable streaming output (`stream=True` in Ollama)
-- Structured JSON logging
-- API key authentication (for public exposure)
-- Full Helm + ArgoCD deployment examples
-
----
-
 ## 👨‍💻 Author
 
 - **Dani** – [@dorado-ai-devops](https://github.com/dorado-ai-devops)
