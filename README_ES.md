@@ -173,6 +173,7 @@ Recomendación: revisar variable DB_HOST, políticas de red y estado del servici
 - [Ollama](https://ollama.com)
 - [OpenAI API](https://platform.openai.com/docs)
 
+
 ---
 
 ## 🛡 Licencia
