@@ -19,6 +19,7 @@
 
 ## 📦 Estructura del Proyecto
 
+
 ```
 ai-log-analyzer-devops/
 ├── app.py                 # Microservicio Flask (API /analyze)
