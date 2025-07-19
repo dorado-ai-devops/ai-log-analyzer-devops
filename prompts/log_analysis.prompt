@@ -1,3 +1,14 @@
-Analyze the following log content from a DevOps perspective. Summarize detected errors, identify possible root causes, and provide concise, actionable recommendations to resolve or mitigate the issues.
+Analiza el siguiente contenido de log desde una perspectiva DevOps. 
 
+Tu objetivo es:
+
+1. Resumir los errores detectados.
+2. Identificar posibles causas raíz.
+3. Proporcionar recomendaciones concretas y accionables para resolver o mitigar los problemas encontrados.
+
+Sé directo, técnico y preciso. No incluyas explicaciones innecesarias.
+
+---
+
+Log a analizar:
 {{LOG_CONTENT}}
