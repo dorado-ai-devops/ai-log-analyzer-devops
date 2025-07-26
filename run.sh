@@ -5,7 +5,7 @@ PROJECT_ROOT="/root/devops-ai/ai-log-analyzer-devops"
 
 # Nos aseguramos de estar en el directorio del proyecto
 cd "$PROJECT_ROOT" || {
-  echo "❌ No se puede acceder a $PROJECT_ROOT"
+  echo " No se puede acceder a $PROJECT_ROOT"
   exit 1
 }
 
